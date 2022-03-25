@@ -1,0 +1,3 @@
+﻿<%@ ServiceHost
+    Service="CP_CW_7417.WebService.SwipesCollectionService, CP_CW_7417.WebService"
+    Factory="Autofac.Integration.Wcf.AutofacServiceHostFactory, Autofac.Integration.Wcf" %>
