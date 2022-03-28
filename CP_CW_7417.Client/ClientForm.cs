@@ -48,6 +48,7 @@ namespace CP_CW_7417.Client
             FillDatabaseGrid();
         }
 
+        // check if process is finished using linq
         private bool IsProcessFinished(List<Terminal> terminals) =>
             terminals.Where(p => p.SwipeStatus == SwipeStatus.Waiting || p.SwipeStatus == SwipeStatus.InProcess).Count() == 0;
 
@@ -59,6 +60,7 @@ namespace CP_CW_7417.Client
             });
         }
 
+        // enable or disable the button so that the user cannot start the procedure multiple times
         private void EnableButton(bool isEnabled)
         {
             btnStart.Invoke((MethodInvoker)delegate
@@ -67,6 +69,7 @@ namespace CP_CW_7417.Client
             });
         }
 
+        // fill the form with database information
         private void FillDatabaseGrid()
         {
             dgvDatabase.Invoke((MethodInvoker)delegate
@@ -74,7 +77,8 @@ namespace CP_CW_7417.Client
                 dgvDatabase.DataSource = _client.GetAllSwipes();
             });
         }
-
+        
+        // change the color of rows depending on status
         private void dgvTerminals_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 1)

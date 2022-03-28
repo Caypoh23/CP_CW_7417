@@ -32,8 +32,10 @@ namespace CP_CW_7417.WebService
             _repository = repository;
         }
 
+        // get the status of terminals
         public List<Terminal> GetStatus() => _terminals;
 
+        // get all swipes using repository method
         public List<Swipe> GetAllSwipes() => _repository.GetSwipes();
 
         public void StartCollectingSwipes()
@@ -42,9 +44,9 @@ namespace CP_CW_7417.WebService
 
             Random random = new Random();
 
-            for (int i = 0; i < 6; i++)
+            // creating 10 terminals and start the threads
+            for (int i = 0; i < 10; i++)
             {
-
                 _terminals.Add(new Terminal(random));
                 var thread = new Thread(RetreiveSwipes);
                 thread.Start(i);
@@ -57,7 +59,8 @@ namespace CP_CW_7417.WebService
             var terminal = _terminals[index];
 
             terminal.SwipeStatus = SwipeStatus.Waiting;
-
+            
+            // allow only 3 swipes at a time
             _semaphore.WaitOne();
 
             terminal.SwipeStatus = SwipeStatus.InProcess;
@@ -66,6 +69,7 @@ namespace CP_CW_7417.WebService
 
             var swipes = ParseSwipeData(swipesStr, terminal.IPAddress);
 
+            // add swipes to db using repository method
             _repository.AddSwipes(swipes);
 
             terminal.SwipeStatus = SwipeStatus.Finished;
@@ -73,7 +77,8 @@ namespace CP_CW_7417.WebService
             _semaphore.Release();
         }
 
-        private List<Swipe> ParseSwipeData(string data, string ipAdress)
+        // parse the data from dll file
+        private List<Swipe> ParseSwipeData(string data, string ipAddress)
         {
             var swipesData = data.Split('\n');
 
@@ -83,7 +88,7 @@ namespace CP_CW_7417.WebService
             {
                 var splittedSwipe = item.Split(',');
 
-                var swipe = new Swipe(ipAdress, splittedSwipe);
+                var swipe = new Swipe(ipAddress, splittedSwipe);
 
                 swipes.Add(swipe);
             }

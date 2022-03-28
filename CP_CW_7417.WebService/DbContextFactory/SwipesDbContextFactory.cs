@@ -5,6 +5,7 @@ using System.Configuration;
 
 namespace CP_CW_7417.WebService.DbContextFactory
 {
+    // the class is used to add migrations 
     public class SwipesDbContextFactory : IDesignTimeDbContextFactory<SwipesDbContext>
     {
         public SwipesDbContext CreateDbContext(string[] args)

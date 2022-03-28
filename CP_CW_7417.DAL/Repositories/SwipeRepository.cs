@@ -13,17 +13,20 @@ namespace CP_CW_7417.DAL.Repositories
         {
             _connectionString = connectionString;
         }
-
+        
+        // add and save swipes to db
         public void AddSwipes(List<Swipe> swipes)
         {
             using (var context = new SwipesDbContext(_connectionString))
             {
                 context.Swipes.AddRange(swipes);
 
+                // save to db
                 context.SaveChanges();
             }
         }
 
+        // get all swipes
         public List<Swipe> GetSwipes()
         {
             using (var context = new SwipesDbContext(_connectionString))
